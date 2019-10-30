@@ -1,8 +1,16 @@
-from django.db.models import Count, Q
+from django.db.models import Count, Q, F 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.shortcuts import render 
-from .models import Post
+from django.shortcuts import render, get_object_or_404, redirect, reverse
+from .forms import CommentForm, PostForm
+# PostView
+from .models import Post, Author
 from marketing.models import Signup
+
+def get_author(user):
+    qs = Author.objects.filter(user=user)
+    if qs.exists():
+        return qs[0]
+    return None
 
 def search(request):
     queryset = Post.objects.all()
@@ -44,7 +52,7 @@ def blog(request):
     print(category_count)
     most_recent = Post.objects.order_by('-timestamp')[:3]
     post_list = Post.objects.all()
-    paginator = Paginator(post_list, 3)
+    paginator = Paginator(post_list, 4)
     page_request_var = 'page'
     page = request.GET.get(page_request_var)
     try:
@@ -64,4 +72,71 @@ def blog(request):
     return render(request, 'blog.html', context)
 
 def post(request, id):
-    return render(request, 'post.html', {})
+    category_count = get_category_count()
+    most_recent = Post.objects.order_by('-timestamp')[:3]
+    post = get_object_or_404(Post, id=id)
+
+    # PostView.objects.get_or_create(user=request.user, post=post)
+
+    post.view_count += 1
+    post.save()
+
+    form = CommentForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            form.instance.user = request.user
+            form.instance.post = post
+            form.save()
+            return redirect(reverse("post-detail", kwargs={
+                'id': post.id
+            }))
+    context = {
+        'form': form,
+        'post': post,
+        'most_recent': most_recent,
+        'category_count': category_count
+    }
+    return render(request, 'post.html', context)
+
+def post_create(request):
+    title = 'Create'
+    form = PostForm(request.POST or None, request.FILES or None)
+    author = get_author(request.user)
+    if request.method == "POST":
+        if form.is_valid():
+            form.instance.author = author 
+            form.save()
+            return redirect(reverse("post-detail", kwargs={
+                'id': form.instance.id
+            }))
+    context = {
+        'title': title,
+        'form': form
+    }
+    return render(request, "post_create.html", context)
+
+# def post_update(request, id):
+#     title = 'Update'
+#     post = get_object_or_404(Post, id=id)
+#     form = PostForm(
+#         request.POST or None,
+#         request.FILES or None,
+#         instance=post)
+#     author = get_author(request.user)
+#     if request.method == "POST":
+#         if form.is_valid():
+#             form.instance.author = author
+#             form.save()
+#             return redirect(reverse("post-detail", kwargs={
+#                 'id': form.instance.id
+#             }))
+#     context = {
+#         'title': title,
+#         'form': form
+#     }
+#     return render(request, "post_create.html", context)
+
+# def post_delete(request, id):
+#     post = get_object_or_404(Post, id=id)
+#     post.delete()
+#     return redirect(reverse, "post_list")
