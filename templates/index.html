@@ -4,13 +4,13 @@
 {% block content %}
 
     <!-- Hero Section-->
-    <section style="background: url({% static 'img/hero.jpg' %}); background-size: cover; background-position: center center" class="hero">
+    <section style="background: url({% static 'img/hero2.jpg' %}); background-size: cover; background-position: center center" class="hero">
       <div class="container">
         <div class="row">
           <div class="col-lg-7">
-            <h1>Bootstrap 4 Blog - A free template by Bootstrap Temple</h1><a href="#" class="hero-link">Discover More</a>
+            <!-- <h1>SERIOUS SECURITY</h1><a href="#" class="hero-link">Discover More</a> -->
           </div>
-        </div><a href=".intro" class="continue link-scroll"><i class="fa fa-long-arrow-down"></i> Scroll Down</a>
+        </div><!--<a href=".intro" class="continue link-scroll"><i class="fa fa-long-arrow-down"></i> Scroll Down</a> -->
       </div>
     </section>
     <!-- Intro Section-->
@@ -18,14 +18,15 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8">
-            <h2 class="h3">Some great intro here</h2>
-            <p class="text-big">Place a nice <strong>introduction</strong> here <strong>to catch reader's attention</strong>. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderi.</p>
+            <h2 class="h3">What's SUP Security?</h2>
+            <p class="text-big">This is the greatest <strong>introduction</strong> of <strong>all time.</strong>. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderi.</p>
           </div>
         </div>
       </div>
     </section>
     <section class="featured-posts no-padding-top">
       <div class="container">
+        <h2 class="h3">Featured Posts:</h2>
         <!-- Post-->
         {% for obj in object_list %}
         <div class="row d-flex align-items-stretch">
@@ -38,15 +39,15 @@
                 <header class="post-header">
                   <div class="category">
                     {% for cat in obj.categories.all %}
-                    <a href="#">{{ cat }}</a>
+                    <a href="{{ obj.get_absolute_url }}">{{ cat }}</a>
                     {% endfor %}
                   </div>
-                    <h2 class="h4">{{ obj.title }}</h2></a>
+                  <a href="{{ obj.get_absolute_url }}"><h2 class="h4">{{ obj.title }}</h2></a>
                 </header>
-                <p>{{ obj.overview }}</p>
-                <footer class="post-footer d-flex align-items-center"><a href="#" class="author d-flex align-items-center flex-wrap">
+                <a href="{{ obj.get_absolute_url }}"><p>{{ obj.overview }}</p></a>
+                <footer class="post-footer d-flex align-items-center"><span class="author d-flex align-items-center flex-wrap">
                     <div class="avatar"><img src="{{ obj.author.profile_picture.url }}" alt="..." class="img-fluid"></div>
-                    <div class="title"><span>{{ obj.author }}</span></div></a>
+                    <div class="title"><span>{{ obj.author }}</span></div></span>
                   <div class="date"><i class="icon-clock"></i>{{ obj.timestamp|timesince }} ago</div>
                   <div class="comments"><i class="icon-comment"></i>{{ obj.comment_count }}</div>
                 </footer>
@@ -65,7 +66,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-7">
-            <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</h2><a href="#" class="hero-link">View More</a>
+            <h2>Want to learn more?  Contact us directly and we'll get back to you!</h2><a href="#" class="hero-link">Contact Us</a>
           </div>
         </div>
       </div>
@@ -99,7 +100,7 @@
       </div>
     </section>
     <!-- Newsletter Section-->
-    <section class="newsletter no-padding-top">    
+    <!-- <section class="newsletter no-padding-top">    
       <div class="container">
         <div class="row">
           <div class="col-md-6">
@@ -119,9 +120,9 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
     <!-- Gallery Section-->
-    <section class="gallery no-padding">    
+    <!-- <section class="gallery no-padding">    
       <div class="row">
         <div class="mix col-lg-3 col-md-3 col-sm-6">
           <div class="item"><a href="img/gallery-1.jpg" data-fancybox="gallery" class="image"><img src="{% static 'img/gallery-1.jpg' %}" alt="..." class="img-fluid">
@@ -140,7 +141,7 @@
               <div class="overlay d-flex align-items-center justify-content-center"><i class="icon-search"></i></div></a></div>
         </div>
       </div>
-    </section>
+    </section> -->
 
 
 {% endblock content %}
