@@ -18,8 +18,8 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8">
-            <h2 class="h3">What's SUP Security?</h2>
-            <p class="text-big">This is the greatest <strong>introduction</strong> of <strong>all time.</strong>. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderi.</p>
+            <h2 class="h3">What's SEAA?</h2>
+            <p class="text-big"><i>Security Education and Awareness Association</i> is designed to reduce the number of security breaches that occur through a lack of security awareness. SEAA sets the security tone for the employees of an organization; we aim to educate and reveal the different layers of necessary security in your respective organization!</p>
           </div>
         </div>
       </div>
@@ -31,7 +31,8 @@
         {% for obj in object_list %}
         <div class="row d-flex align-items-stretch">
           {% if not forloop.first and not forloop.last %}
-          <div class="image col-lg-5"><img src="{{ obj.thumbnail.url }}" alt="..."></div>
+          <!-- <div class="image col-lg-5"><img src="{{ obj.thumbnail.url }}" alt="..."></div> -->
+          <a class="image col-lg-5" href="{{ obj.get_absolute_url }}"><img src="{{ obj.thumbnail.url }}" alt="..."></a>
           {% endif %}
           <div class="text col-lg-7">
             <div class="text-inner d-flex align-items-center">
@@ -55,7 +56,8 @@
             </div>
           </div>
           {% if forloop.first or forloop.last %}
-          <div class="image col-lg-5"><img src="{{ obj.thumbnail.url }}" alt="..."></div>
+          <!-- <div class="image col-lg-5"><img src="{{ obj.thumbnail.url }}" alt="..."></div> -->
+          <a class="image col-lg-5" href="{{ obj.get_absolute_url }}"><img src="{{ obj.thumbnail.url }}" alt="..."></a>
           {% endif %}
         </div>
         {% endfor %}
@@ -81,7 +83,7 @@
         <div class="row">
           {% for obj in latest %}
           <div class="post col-md-4">
-            <div class="post-thumbnail"><a href="#"><img src="{{ obj.thumbnail.url }}" alt="..." class="img-fluid"></a></div>
+            <div class="post-thumbnail"><a href="{{ obj.get_absolute_url }}"><img src="{{ obj.thumbnail.url }}" alt="..." class="img-fluid"></a></div>
             <div class="post-details">
               <div class="post-meta d-flex justify-content-between">
                 <div class="date">{{ obj.timestamp }}</div>
@@ -90,9 +92,9 @@
                   <a href="#">{{ cat}}</a>
                   {% endfor %}
                 </div>
-              </div><a href="#">
-                <h3 class="h4">{{ obj.title }}</h3></a>
-              <p class="text-muted">{{ obj.overview }}</p>
+              </div><a href="{{ obj.get_absolute_url }}">
+                <h3 class="h4">{{ obj.title }}</h3>
+              <p class="text-muted">{{ obj.overview }}</p></a>
             </div>
           </div>
           {% endfor %}
